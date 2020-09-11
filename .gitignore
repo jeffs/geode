@@ -1,0 +1,5 @@
+# Produced by 'go build'.
+/geode
+
+# Produced by 'go build ./main.go' or 'go build ./...'.
+/main
