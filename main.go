@@ -1,3 +1,4 @@
+// Geode is a program to manage config files for a user's shell, editor, etc.
 package main
 
 import (
