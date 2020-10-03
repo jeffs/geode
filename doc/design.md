@@ -1,5 +1,0 @@
-two parts:
-  installer
-  runtime
-
-

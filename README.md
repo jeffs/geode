@@ -12,8 +12,11 @@ First, install the prerequisites: [Git][], [Go][], and optionally [Docker][]
     go get github.com/jeffs/geode
 
 The `geode` command line tool should now be in your `$GOPATH/bin` directory (or
-`~/go/bin` if `$GOPATH` is empty).  Finally, run `geode update` to complete the
-installation.
+`~/go/bin` if `$GOPATH` is empty).
+
+## Usage
+
+Run `geode help` for a list of Geode subcommands.
 
 [Docker]: https://www.docker.com/
 [Git]: https://git-scm.com/
