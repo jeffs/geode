@@ -3,7 +3,7 @@ package command
 
 import (
 	"fmt"
-	"os"
+	"io"
 
 	"github.com/jeffs/geode/internal/command/errs"
 	"github.com/jeffs/geode/internal/command/sub"
@@ -11,10 +11,10 @@ import (
 
 // dispatch finds the function implementing the named cmd, and passes that
 // function the specified args.
-func dispatch(cmd string, args []string) error {
+func dispatch(cmd string, args []string, wout, werr io.Writer) error {
 	switch cmd {
 	case "help":
-		return sub.Help(args)
+		return sub.Help(args, wout)
 	default:
 		return errs.User{cmd + ": bad command"}
 	}
@@ -22,14 +22,15 @@ func dispatch(cmd string, args []string) error {
 
 // Main implements the geode command-line interface.  Returns 2 on usage error,
 // 1 on any other error, and 0 on success.
-func Main(osArgs []string) int {
+func Main(osArgs []string, wout, werr io.Writer) int {
 	if len(osArgs) < 2 {
-		fmt.Println(sub.Usage) // TODO: Inject stdout.
+		fmt.Fprint(werr, sub.Usage)
 		return 2
 	}
 
-	if err := dispatch(osArgs[1], osArgs[2:]); err != nil {
-		fmt.Fprintf(os.Stderr, "geode: %v\n", err) // TODO: Inject stderr.
+	cmd := osArgs[1]
+	if err := dispatch(cmd, osArgs[2:], wout, werr); err != nil {
+		fmt.Fprintf(werr, "geode: %s: %v\n", cmd, err)
 		if _, ok := err.(errs.User); ok {
 			return 2
 		}

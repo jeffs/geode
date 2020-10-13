@@ -3,6 +3,7 @@ package sub
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/jeffs/geode/internal/command/errs"
 )
@@ -26,9 +27,9 @@ Run 'geode help <command>' for more information about a command.
 // Help prints a usage message, or describes specified topics.
 //
 // TODO: Inject stdout.
-func Help(args []string) error {
+func Help(args []string, wout io.Writer) error {
 	if len(args) == 0 {
-		fmt.Println(Usage)
+		fmt.Fprintln(wout, Usage)
 		return nil
 	}
 
@@ -36,10 +37,9 @@ func Help(args []string) error {
 		return errs.User{"help: expected a single topic"}
 	}
 
-	arg := args[0]
-	switch arg {
+	switch arg := args[0]; arg {
 	case "help":
-		fmt.Println("usage: geode help [topic]")
+		fmt.Fprintln(wout, "usage: geode help [topic]")
 	default:
 		return errs.User{"help: " + arg + ": bad topic"}
 	}
