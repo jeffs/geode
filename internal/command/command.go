@@ -13,6 +13,10 @@ import (
 // function the specified args.
 func dispatch(cmd string, args []string, wout, werr io.Writer) error {
 	switch cmd {
+	case "docker.image.build":
+		return nil // TODO
+	case "docker.file":
+		return nil // TODO
 	case "help":
 		return sub.Help(args, wout)
 	default:
