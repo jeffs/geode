@@ -4,9 +4,9 @@ package main
 import (
 	"os"
 
-	"github.com/jeffs/geode/internal/command"
+	"github.com/jeffs/geode/internal/cli"
 )
 
 func main() {
-	os.Exit(command.Main(os.Args, os.Stdout, os.Stderr))
+	os.Exit(cli.Main(os.Args, os.Stdout, os.Stderr))
 }
