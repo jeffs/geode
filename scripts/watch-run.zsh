@@ -10,11 +10,11 @@ declare a=$tmp/a b=$tmp/b
 
 # Print timestamps of regular files under the current directory.
 ts() {
-    fd --type=file --exec-batch stat -f %m
+    fd --type=file --exclude=go --no-ignore --exec-batch stat -f %m
 }
 
 args() {
-    [ -f args ] && cat args
+    [ -f testdata/args ] && cat testdata/args
 }
 
 clear-run() {
@@ -30,9 +30,10 @@ clear-run() {
     fi
     clear
     echo -e "\e[2m[$(date +%T)] $run \e[22m\n"
-    ./go/bin/geode "$@" $(args)
+    ./go/bin/geode "$@" $(args) >& $tmp/Dockerfile
     local code=$?
-    echo -e "\n\e[2m[$(date +%T)] $code\e[22m"
+    bat --line-range=:44 --plain $tmp/Dockerfile
+    echo -ne "\n\e[2m[$(date +%T)] $code\e[22m"
 }
 
 ts >$a

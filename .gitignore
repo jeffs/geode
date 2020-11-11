@@ -6,6 +6,3 @@
 
 # Useful GOPATH for local installation.
 /go/
-
-# Arguments forwarded to geode by run scripts.
-/args
