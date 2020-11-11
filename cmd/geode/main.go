@@ -15,7 +15,7 @@ func dispatch(cmd string, args []string) error {
 	case "build":
 		return errors.New("TODO")
 	case "dockerfile":
-		return errors.New("TODO")
+		return cli.Dockerfile(args)
 	case "-h", "--help", "help":
 		return cli.Help(args)
 	default:
