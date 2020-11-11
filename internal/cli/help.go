@@ -1,9 +1,9 @@
+// Package cli implements Geode subcommands.
 package cli
 
 import (
 	"errors"
 	"fmt"
-	"io"
 )
 
 const Usage string = `Geode is a tool for managing personal config files.
@@ -14,9 +14,9 @@ Usage:
 
 Commands:
 
-    help                Print this message
-    docker.image.build  Build a Docker image from a TOML profile
-    docker.image.file   Print a Docker file from a TOML profile
+    help        Print this message
+    build       Build a Docker image from a Geode profile
+    dockerfile  Print a Docker file from a Geode profile
 
 Run 'geode help COMMAND' for information about that command.
 
@@ -28,7 +28,7 @@ func topic_help(topic string) (error, string) {
 	switch topic {
 	case "dockerfile":
 		// TODO: Document TOML schema.
-		return nil, `usage: geode dockerfile PROFILE.toml
+		return nil, `usage: geode dockerfile PROFILE
 
 Print a Docker file built from a TOML profile.`
 	case "build":
@@ -44,11 +44,9 @@ without actually building the image, use: geode dockerfile PROFILE.toml`
 }
 
 // Help prints a usage message, or describes specified topics.
-//
-// TODO: Inject stdout.
-func Help(args []string, wout io.Writer) error {
+func Help(args []string) error {
 	if len(args) == 0 {
-		fmt.Fprintln(wout, Usage)
+		fmt.Println(Usage)
 		return nil
 	}
 
@@ -61,6 +59,6 @@ func Help(args []string, wout io.Writer) error {
 		return err
 	}
 
-	fmt.Fprintln(wout, help)
+	fmt.Println(help)
 	return nil
 }

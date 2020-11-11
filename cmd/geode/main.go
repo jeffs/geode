@@ -2,11 +2,35 @@
 package main
 
 import (
+	"errors"
+	"fmt"
 	"os"
 
 	"github.com/jeffs/geode/internal/cli"
 )
 
+// Passes the specified args to the function implementing the specified cmd.
+func dispatch(cmd string, args []string) error {
+	switch cmd {
+	case "build":
+		return errors.New("TODO")
+	case "dockerfile":
+		return errors.New("TODO")
+	case "-h", "--help", "help":
+		return cli.Help(args)
+	default:
+		return errors.New("bad command")
+	}
+}
+
 func main() {
-	os.Exit(cli.Main(os.Args, os.Stdout, os.Stderr))
+	if len(os.Args) < 2 {
+		fmt.Fprintln(os.Stderr, cli.Usage)
+		os.Exit(2)
+	}
+
+	if err := dispatch(os.Args[1], os.Args[2:]); err != nil {
+		fmt.Fprintln(os.Stderr, "geode:", os.Args[1]+":", err)
+		os.Exit(1)
+	}
 }
