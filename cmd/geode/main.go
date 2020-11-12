@@ -9,9 +9,9 @@ import (
 	"github.com/jeffs/geode/internal/cli"
 )
 
-// Passes the specified args to the function implementing the specified cmd.
-func dispatch(cmd string, args []string) error {
-	switch cmd {
+// Passes the specified args to the function implementing the specified command.
+func dispatch(command string, args []string) error {
+	switch command {
 	case "attach":
 		return cli.Attach(args)
 	case "build":
@@ -33,13 +33,13 @@ func main() {
 		os.Exit(2)
 	}
 
-	cmd := os.Args[1]
-	if cmd == "-h" || cmd == "--help" {
-		cmd = "help"
+	c := os.Args[1]
+	if c == "-h" || c == "--help" {
+		c = "help"
 	}
 
-	if err := dispatch(cmd, os.Args[2:]); err != nil {
-		fmt.Fprintln(os.Stderr, "geode:", cmd+":", err)
+	if err := dispatch(c, os.Args[2:]); err != nil {
+		fmt.Fprintln(os.Stderr, "geode:", c+":", err)
 		os.Exit(1)
 	}
 }
