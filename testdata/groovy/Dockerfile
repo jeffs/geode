@@ -81,4 +81,5 @@ USER {{.User}}
 WORKDIR /home/{{.User}}
 {{- end}}
 
+# TODO: COPY geode-main to image, and set CMD to geode-main.
 CMD {{ja .Command}}

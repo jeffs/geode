@@ -21,6 +21,7 @@ func dispatch(command string, args []string) error {
 	case "help":
 		return cli.Help(args)
 	case "run":
+		// TODO: Implemnt Run as Attach.  Do not expose Run directly.
 		return cli.Run(args)
 	default:
 		return errors.New("bad command")

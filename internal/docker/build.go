@@ -34,6 +34,8 @@ func BuildFromConfig(profile string, cfg *config) error {
 		return err
 	}
 
+	// TODO: If the user's home volume doesn't exist, create and initialize it.
+
 	return nil
 }
 
