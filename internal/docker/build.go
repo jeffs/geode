@@ -37,8 +37,9 @@ func BuildFromConfig(profile string, cfg *config) error {
 	return nil
 }
 
-// Build creates a Docker image per the specified Geode profile directory.  The
-// image tag is the directory's basename; i.e., final component of the path.
+// Build creates a Docker image according to the specified Geode profile
+// directory.  The image tag is the directory's basename; i.e., the final
+// component of the path.
 func Build(profile string) error {
 	cfg, err := readConfig(profile)
 	if err != nil {
