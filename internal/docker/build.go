@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	"path/filepath"
 )
 
 func volumeExists(flatName string) bool {
@@ -36,11 +37,15 @@ func BuildFromConfig(profile string, cfg *config) error {
 		return err
 	}
 
-	// TODO: If the user's home volume doesn't exist, create and initialize it.
-	// We'll do this by running a container mounting the geode-init script
-	// and specifying the script as the run command.
 	if !volumeExists(cfg.Name) {
-		fmt.Fprintln(os.Stderr, "TODO:", cfg.FlatName()+":", "initialize volume")
+		nc := *cfg
+		abs, err := filepath.Abs(profile)
+		if err != nil {
+			return err
+		}
+
+		nc.Bind[abs] = "/mnt/profile"
+		return RunFromConfig(profile, &nc, []string{"/mnt/profile/init"})
 	}
 
 	return nil
