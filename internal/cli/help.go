@@ -1,9 +1,12 @@
 // Package cli implements Geode subcommands.
+//
+// TODO: Document the TOML schema.
 package cli
 
 import (
 	"errors"
 	"fmt"
+	"strings"
 )
 
 const Usage string = `Geode is a tool for managing personal config files.
@@ -14,9 +17,10 @@ Usage:
 
 Commands:
 
-    help        Print this message
     build       Build a Docker image from a Geode profile
-    dockerfile  Print a Docker file from a Geode profile
+    dockerfile  Print a Dockerfile from a Geode profile
+    help        Print this message
+    run         Start a new Docker container
 
 Run 'geode help COMMAND' for information about that command.
 
@@ -26,18 +30,30 @@ Run 'geode help TOPIC' for information about that topic.`
 
 func topic_help(topic string) (error, string) {
 	switch topic {
+	case "build":
+		return nil, `usage: geode build PROFILE
+
+		Builds a Docker image from Geode profile.  To see the
+		Dockerfile contents without actually building the image, use:
+		geode dockerfile PROFILE`
+
 	case "dockerfile":
-		// TODO: Document TOML schema.
 		return nil, `usage: geode dockerfile PROFILE
 
-Print a Docker file built from a TOML profile.`
-	case "build":
-		return nil, `usage: geode build PROFILE.toml
+		Prints a Dockerfile from a Geode profile.  The profile must be
+		a directory containing a Dockerfile template and a
+		dockerfile.toml file.  Variables in the template are replaced
+		by corresponding values set in the toml file.`
 
-Build a Docker image from PROFILE.toml.  To see the Dockerfile contents
-without actually building the image, use: geode dockerfile PROFILE.toml`
 	case "help":
 		return nil, "usage: geode help [TOPIC]"
+
+	case "run":
+		return nil, `usage: geode run PROFILE [ARGS...]
+
+		Start a new Docker container from a Geode profile, building the
+		image first if it does not already exist.`
+
 	default:
 		return errors.New(topic + ": bad topic"), ""
 	}
@@ -59,6 +75,7 @@ func Help(args []string) error {
 		return err
 	}
 
+	help = strings.ReplaceAll(help, "\t", "")
 	fmt.Println(help)
 	return nil
 }
