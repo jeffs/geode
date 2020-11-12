@@ -10,19 +10,19 @@ import (
 )
 
 func dockerArgs(name string) []string {
-	dargs := []string{"container", "run", "--name", name, "--rm"}
+	a := []string{"container", "run", "--name", name, "--rm"}
 	if term.IsTerminal(int(os.Stdin.Fd())) {
-		dargs = append(dargs, "--interactive", "--tty")
+		a = append(a, "--interactive", "--tty")
 	}
 
-	return append(dargs, name)
+	return append(a, name)
 }
 
 func imageExists(name string) bool {
 	return exec.Command("docker", "image", "inspect", name).Run() == nil
 }
 
-func Run(profile string) error {
+func Run(profile string, args []string) error {
 	_, name := path.Split(strings.TrimRight(profile, "/"))
 	if !imageExists(name) {
 		if err := Build(profile); err != nil {
@@ -30,7 +30,8 @@ func Run(profile string) error {
 		}
 	}
 
-	cmd := exec.Command("docker", dockerArgs(name)...)
+	args = append(dockerArgs(name), args...)
+	cmd := exec.Command("docker", args...)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
