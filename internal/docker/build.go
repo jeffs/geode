@@ -9,6 +9,10 @@ import (
 	"strings"
 )
 
+func volumeExists(name string) bool {
+	return exec.Command("docker", "volume", "inspect", name).Run() == nil
+}
+
 func BuildFromConfig(profile string, cfg *config) error {
 	dir, err := ioutil.TempDir("", "geode-build")
 	if err != nil {
@@ -35,6 +39,13 @@ func BuildFromConfig(profile string, cfg *config) error {
 	}
 
 	// TODO: If the user's home volume doesn't exist, create and initialize it.
+	// We'll do this by running a container mounting the geode-init script
+	// and host ssh creds, and specifying the script as the run command.
+	//
+	// TODO: Support alternative ssh creds per toml.
+	if !volumeExists(name) {
+		fmt.Fprintln(os.Stderr, "TODO:", name + ":", "initialize volume")
+	}
 
 	return nil
 }

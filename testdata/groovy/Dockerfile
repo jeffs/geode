@@ -70,7 +70,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -qqy \
 #
 # Enabling sudo coredumps works around a container bug that makes sudo unhappy:
 # https://github.com/sudo-project/sudo/issues/42
-RUN useradd -ms /usr/bin/zsh {{.User}} \
+RUN useradd -s /usr/bin/zsh {{.User}} \
  && echo '{{.User}} ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
  && echo "Set disable_coredump false" >> /etc/sudo.conf
 
