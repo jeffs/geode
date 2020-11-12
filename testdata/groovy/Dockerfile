@@ -76,6 +76,9 @@ RUN useradd -ms /usr/bin/zsh {{.User}} \
 
 # Make myself the default user.
 USER {{.User}}
+
+# Start containers in my home directory.
+WORKDIR /home/{{.User}}
 {{- end}}
 
-CMD {{ ja .Command }}
+CMD {{ja .Command}}
