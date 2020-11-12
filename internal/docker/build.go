@@ -6,9 +6,11 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	"strings"
 )
 
-// Build creates a Docker image per the specified Geode profile.
+// Build creates a Docker image per the specified Geode profile directory.  The
+// image tag is the directory's basename; i.e., final component of the path.
 func Build(profile string) error {
 	dir, err := ioutil.TempDir("", "geode-build")
 	if err != nil {
@@ -26,7 +28,7 @@ func Build(profile string) error {
 		return err
 	}
 
-	_, name := path.Split(profile)
+	_, name := path.Split(strings.TrimRight(profile, "/"))
 	cmd := exec.Command("docker", "image", "build", "-t", name, dir)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
