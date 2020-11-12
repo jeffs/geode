@@ -73,8 +73,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -qqy \
 RUN useradd -ms /usr/bin/zsh {{.User}} \
  && echo '{{.User}} ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
  && echo "Set disable_coredump false" >> /etc/sudo.conf
+
+# Make myself the default user.
 USER {{.User}}
-WORKDIR /home/{{.User}}
 {{- end}}
 
 # TODO Make shell configurable.

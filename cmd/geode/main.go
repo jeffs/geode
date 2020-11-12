@@ -18,6 +18,8 @@ func dispatch(cmd string, args []string) error {
 		return cli.Dockerfile(args)
 	case "-h", "--help", "help":
 		return cli.Help(args)
+	case "run":
+		return cli.Run(args)
 	default:
 		return errors.New("bad command")
 	}

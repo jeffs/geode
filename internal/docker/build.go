@@ -29,6 +29,7 @@ func Build(profile string) error {
 	}
 
 	_, name := path.Split(strings.TrimRight(profile, "/"))
+
 	cmd := exec.Command("docker", "image", "build", "-t", name, dir)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
