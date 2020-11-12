@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"path"
-	"strings"
 
 	"golang.org/x/term"
 )
@@ -14,13 +12,13 @@ func imageExists(name string) bool {
 	return exec.Command("docker", "image", "inspect", name).Run() == nil
 }
 
-// TODO: Mount, publish, --security-opt=seccomp:unconfined, etc. per config.
-func runArgs(name string, cfg *config) []string {
+func runArgs(cfg *config) []string {
+	fn := cfg.FlatName()
 	a := []string{
 		"--env=DISPLAY=host.docker.internal:0",
-		"--hostname=" + name,
-		"--mount=type=volume,source=" + name + ",target=/home/" + cfg.User,
-		"--name=" + name,
+		"--hostname=" + fn,
+		"--mount=type=volume,source=" + fn + ",target=/home/" + cfg.User,
+		"--name=" + fn,
 		"--rm",
 	}
 
@@ -40,7 +38,24 @@ func runArgs(name string, cfg *config) []string {
 		a = append(a, "--interactive", "--tty")
 	}
 
-	return append(a, name)
+	return append(a, cfg.Name)
+}
+
+func RunFromConfig(profile string, cfg *config, args []string) error {
+	if !imageExists(cfg.Name) {
+		if err := BuildFromConfig(profile, cfg); err != nil {
+			return err
+		}
+	}
+
+	a := []string{"container", "run"}
+	a = append(a, runArgs(cfg)...)
+	a = append(a, args...)
+	c := exec.Command("docker", a...)
+	c.Stdin = os.Stdin
+	c.Stdout = os.Stdout
+	c.Stderr = os.Stderr
+	return c.Run()
 }
 
 func Run(profile string, args []string) error {
@@ -48,19 +63,6 @@ func Run(profile string, args []string) error {
 	if err != nil {
 		return err
 	}
-	_, name := path.Split(strings.TrimRight(profile, "/"))
-	if !imageExists(name) {
-		if err := BuildFromConfig(profile, cfg); err != nil {
-			return err
-		}
-	}
 
-	a := []string{"container", "run"}
-	a = append(a, runArgs(name, cfg)...)
-	a = append(a, args...)
-	c := exec.Command("docker", a...)
-	c.Stdin = os.Stdin
-	c.Stdout = os.Stdout
-	c.Stderr = os.Stderr
-	return c.Run()
+	return RunFromConfig(profile, cfg, args);
 }

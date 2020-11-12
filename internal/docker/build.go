@@ -6,11 +6,10 @@ import (
 	"os"
 	"os/exec"
 	"path"
-	"strings"
 )
 
-func volumeExists(name string) bool {
-	return exec.Command("docker", "volume", "inspect", name).Run() == nil
+func volumeExists(flatName string) bool {
+	return exec.Command("docker", "volume", "inspect", flatName).Run() == nil
 }
 
 func BuildFromConfig(profile string, cfg *config) error {
@@ -30,8 +29,7 @@ func BuildFromConfig(profile string, cfg *config) error {
 		return err
 	}
 
-	_, name := path.Split(strings.TrimRight(profile, "/"))
-	c := exec.Command("docker", "image", "build", "-t", name, dir)
+	c := exec.Command("docker", "image", "build", "-t", cfg.Name, dir)
 	c.Stdout = os.Stdout
 	c.Stderr = os.Stderr
 	if err := c.Run(); err != nil {
@@ -40,19 +38,15 @@ func BuildFromConfig(profile string, cfg *config) error {
 
 	// TODO: If the user's home volume doesn't exist, create and initialize it.
 	// We'll do this by running a container mounting the geode-init script
-	// and host ssh creds, and specifying the script as the run command.
-	//
-	// TODO: Support alternative ssh creds per toml.
-	if !volumeExists(name) {
-		fmt.Fprintln(os.Stderr, "TODO:", name + ":", "initialize volume")
+	// and specifying the script as the run command.
+	if !volumeExists(cfg.Name) {
+		fmt.Fprintln(os.Stderr, "TODO:", cfg.FlatName()+":", "initialize volume")
 	}
 
 	return nil
 }
 
-// Build creates a Docker image according to the specified Geode profile
-// directory.  The image tag is the directory's basename; i.e., the final
-// component of the path.
+// Build creates a Docker image per the specified Geode profile directory.
 func Build(profile string) error {
 	cfg, err := readConfig(profile)
 	if err != nil {

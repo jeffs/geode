@@ -13,7 +13,7 @@ import (
 )
 
 func TestBuild(t *testing.T) {
-	name := "groovy"
+	name := "geode/testdata-groovy"
 	fmt.Fprintln(os.Stderr, "checking for existing image")
 	if err := exec.Command("docker", "image", "inspect", name).Run(); err == nil {
 		t.Fatalf("won't replace existing image %s", name)

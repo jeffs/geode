@@ -2,6 +2,7 @@ package docker
 
 import (
 	"path"
+	"strings"
 
 	"github.com/BurntSushi/toml"
 )
@@ -16,9 +17,16 @@ type config struct {
 
 	Command []string
 
-	Bind map[string]string
+	Bind    map[string]string
 	Volumes map[string]string
-	Ports map[string]int
+	Ports   map[string]int
+}
+
+// FlatName returns a valid Docker container name based on c.Name.  In
+// particular, whereas image names may contain slashes (/), container names
+// cannot.
+func (c *config) FlatName() string {
+	return strings.ReplaceAll(c.Name, "/", "-")
 }
 
 func readConfig(profile string) (*config, error) {
@@ -28,7 +36,9 @@ func readConfig(profile string) (*config, error) {
 		return nil, err
 	}
 
-	// TODO: Populate Name (if not explicitly set) from profile path.
+	if c.Name == "" {
+		_, c.Name = path.Split(strings.TrimRight(profile, "/"))
+	}
 
 	return &c, nil
 }

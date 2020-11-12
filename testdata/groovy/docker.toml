@@ -1,3 +1,5 @@
+name = "geode/testdata-groovy"
+
 base = "ubuntu:groovy"
 user = "jeff"
 
