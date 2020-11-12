@@ -17,6 +17,7 @@ Usage:
 
 Commands:
 
+    attach      Start a container, or attach to an existing one
     build       Build a Docker image from a Geode profile
     dockerfile  Print a Dockerfile from a Geode profile
     help        Print this message

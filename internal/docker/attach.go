@@ -12,10 +12,18 @@ func containerExists(name string) bool {
 
 func Attach(profile string, args []string) error {
 	_, name := path.Split(strings.TrimRight(profile, "/"))
-	if containerExists(name) {
+	if !containerExists(name) {
 		return Run(name, args)
 	}
 
-	// TODO: Exec the user's shell by default.
+	if len(args) < 1 {
+		cfg, err := readConfig(profile)
+		if err != nil {
+			return err
+		}
+
+		args = cfg.Command
+	}
+
 	return Exec(profile, args)
 }

@@ -3,3 +3,5 @@ user = "jeff"
 
 locale = "en_US.UTF-8"
 timezone = "America/New_York"
+
+command = ["/usr/bin/zsh"]

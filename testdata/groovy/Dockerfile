@@ -78,5 +78,4 @@ RUN useradd -ms /usr/bin/zsh {{.User}} \
 USER {{.User}}
 {{- end}}
 
-# TODO Make shell configurable.
-CMD ["/usr/bin/zsh"]
+CMD {{ ja .Command }}
