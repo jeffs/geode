@@ -30,10 +30,10 @@ func Build(profile string) error {
 
 	_, name := path.Split(strings.TrimRight(profile, "/"))
 
-	cmd := exec.Command("docker", "image", "build", "-t", name, dir)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
+	c := exec.Command("docker", "image", "build", "-t", name, dir)
+	c.Stdout = os.Stdout
+	c.Stderr = os.Stderr
+	if err := c.Run(); err != nil {
 		return err
 	}
 
