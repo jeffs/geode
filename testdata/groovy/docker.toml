@@ -5,3 +5,9 @@ locale = "en_US.UTF-8"
 timezone = "America/New_York"
 
 command = ["/usr/bin/zsh", "-c", "echo '['$(date +%T)] $(hostname)"]
+
+[bind]
+"/Users/jeff/.ssh" = "/home/jeff/.ssh"
+
+[ports]
+8000 = 8080

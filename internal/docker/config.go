@@ -15,6 +15,10 @@ type config struct {
 	TimeZone string
 
 	Command []string
+
+	Bind map[string]string
+	Volumes map[string]string
+	Ports map[string]int
 }
 
 func readConfig(profile string) (*config, error) {
@@ -23,6 +27,8 @@ func readConfig(profile string) (*config, error) {
 	if _, err := toml.DecodeFile(f, &c); err != nil {
 		return nil, err
 	}
+
+	// TODO: Populate Name (if not explicitly set) from profile path.
 
 	return &c, nil
 }

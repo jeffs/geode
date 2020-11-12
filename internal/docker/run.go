@@ -1,6 +1,7 @@
 package docker
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 	"path"
@@ -21,6 +22,18 @@ func runArgs(name string, cfg *config) []string {
 		"--mount=type=volume,source=" + name + ",target=/home/" + cfg.User,
 		"--name=" + name,
 		"--rm",
+	}
+
+	for k, v := range cfg.Bind {
+		a = append(a, "--mount=type=bind,src="+k+",dst="+v)
+	}
+
+	for k, v := range cfg.Volumes {
+		a = append(a, "--mount=type=volume,src="+k+",dst="+v)
+	}
+
+	for k, v := range cfg.Ports {
+		a = append(a, fmt.Sprintf("--publish=%s:%d", k, v))
 	}
 
 	if term.IsTerminal(int(os.Stdin.Fd())) {
