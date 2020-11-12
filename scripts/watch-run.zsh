@@ -34,7 +34,7 @@ clear-run() {
     echo -e "\e[2m[$(date +%T)] $run \e[22m\n"
     ./go/bin/geode "$@" $(args) >& $tmp/Dockerfile
     local code=$?
-    bat --line-range=:44 --plain $tmp/Dockerfile
+    bat --pager=never --plain $tmp/Dockerfile
     echo -ne "\n\e[2m[$(date +%T)] $code\e[22m"
 }
 
