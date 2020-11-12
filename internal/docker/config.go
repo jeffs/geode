@@ -19,7 +19,7 @@ type config struct {
 
 func readConfig(profile string) (*config, error) {
 	var c config
-	f := path.Join(profile, "dockerfile.toml")
+	f := path.Join(profile, "docker.toml")
 	if _, err := toml.DecodeFile(f, &c); err != nil {
 		return nil, err
 	}

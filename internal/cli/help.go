@@ -42,9 +42,9 @@ func topic_help(topic string) (error, string) {
 		return nil, `usage: geode dockerfile PROFILE
 
 		Prints a Dockerfile from a Geode profile.  The profile must be
-		a directory containing a Dockerfile template and a
-		dockerfile.toml file.  Variables in the template are replaced
-		by corresponding values set in the toml file.`
+		a directory containing a Dockerfile template and a docker.toml
+		file.  Variables in the template are replaced by corresponding
+		values set in the toml file.`
 
 	case "help":
 		return nil, "usage: geode help [TOPIC]"

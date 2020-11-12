@@ -37,7 +37,7 @@ func DockerfileFromConfig(profile string, cfg *config, w io.Writer) error {
 	return nil
 }
 
-// WriteFile reads a Dockerfile template and dockerfile.toml from the specified
+// WriteFile reads a Dockerfile template and docker.toml from the specified
 // profile directory, and expands the template with the values from the TOML
 // file to the specified writer.
 func Dockerfile(profile string, w io.Writer) error {
