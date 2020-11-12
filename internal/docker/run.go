@@ -9,8 +9,15 @@ import (
 	"golang.org/x/term"
 )
 
+// TODO: mount, publish, "--security-opt=seccomp:unconfined" if necessary
 func runArgs(name string) []string {
-	a := []string{"--name", name, "--rm"}
+	a := []string{
+		"--env=DISPLAY=host.docker.internal:0",
+		"--hostname=" + name,
+		"--name=" + name,
+		"--rm",
+	}
+
 	if term.IsTerminal(int(os.Stdin.Fd())) {
 		a = append(a, "--interactive", "--tty")
 	}
