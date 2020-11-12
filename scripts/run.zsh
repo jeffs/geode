@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+declare argsfile=testdata/args
+
 cd $(dirname $0)/..
 scripts/build.zsh
-./go/bin/geode "$@" $(test -f testdata/args && cat testdata/args)
+./go/bin/geode "$@" $(test -f $argsfile && cat $argsfile)

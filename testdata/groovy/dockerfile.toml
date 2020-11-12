@@ -1,5 +1,4 @@
 base = "ubuntu:groovy"
-name = "geode-example"
 user = "jeff"
 
 locale = "en_US.UTF-8"

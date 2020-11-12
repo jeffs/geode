@@ -13,7 +13,7 @@ import (
 func dispatch(cmd string, args []string) error {
 	switch cmd {
 	case "build":
-		return errors.New("TODO")
+		return cli.Build(args)
 	case "dockerfile":
 		return cli.Dockerfile(args)
 	case "-h", "--help", "help":

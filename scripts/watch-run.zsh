@@ -3,6 +3,8 @@
 cd $(dirname $0)/..
 export GOPATH=$PWD/go
 
+declare argsfile=testdata/args
+
 declare tmp=$(mktemp -d)
 trap "rm -rf $tmp" EXIT
 
@@ -14,7 +16,7 @@ ts() {
 }
 
 args() {
-    [ -f testdata/args ] && cat testdata/args
+    test -f $argsfile && cat $argsfile
 }
 
 clear-run() {

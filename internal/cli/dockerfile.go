@@ -2,13 +2,9 @@ package cli
 
 import (
 	"errors"
-	"fmt"
-	"io/ioutil"
 	"os"
-	"path"
-	"text/template"
 
-	"github.com/BurntSushi/toml"
+	"github.com/jeffs/geode/internal/docker"
 )
 
 type config struct {
@@ -25,20 +21,5 @@ func Dockerfile(args []string) error {
 		return errors.New("expected exactly one profile")
 	}
 
-	var cfg config
-	if _, err := toml.DecodeFile(path.Join(args[0], "dockerfile.toml"), &cfg); err != nil {
-		return err
-	}
-
-	bytes, err := ioutil.ReadFile(path.Join(args[0], "Dockerfile"))
-	if err != nil {
-		return err
-	}
-
-	tpl := template.Must(template.New("Dockerfile").Parse(string(bytes)))
-	if err := tpl.Execute(os.Stdout, &cfg); err != nil {
-		return fmt.Errorf("can't generate Dockerfile: %w\n", err)
-	}
-
-	return nil
+	return docker.ExpandFile(args[0], os.Stdout)
 }
