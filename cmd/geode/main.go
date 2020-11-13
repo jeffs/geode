@@ -12,8 +12,6 @@ import (
 // Passes the specified args to the function implementing the specified command.
 func dispatch(command string, args []string) error {
 	switch command {
-	case "attach":
-		return cli.Attach(args)
 	case "build":
 		return cli.Build(args)
 	case "dockerfile":
@@ -21,7 +19,6 @@ func dispatch(command string, args []string) error {
 	case "help":
 		return cli.Help(args)
 	case "run":
-		// TODO: Implemnt Run as Attach.  Do not expose Run directly.
 		return cli.Run(args)
 	default:
 		return errors.New("bad command")

@@ -17,11 +17,10 @@ Usage:
 
 Commands:
 
-    attach      Start a container, or attach to an existing one
     build       Build a Docker image from a Geode profile
     dockerfile  Print a Dockerfile from a Geode profile
     help        Print this message
-    run         Start a new Docker container
+    run         Start a container, or attach to an existing one
 
 Run 'geode help COMMAND' for information about that command.
 
