@@ -1,16 +1,15 @@
 # Geode
 
-Geode helps you manage your config files for your shell, editor, etc.  You
-specify settings in [TOML][] files, and Geode applies those to your host system
-or a Docker container.
+Geode helps you manage config files for your shell, editor, etc.  You specify
+settings in [TOML][] files, and Geode applies them inside a Docker container.
 
 ## Installation
 
-First, install the prerequisites: [Git][], [Go][], and optionally [Docker][]
-(if you want Geode to create containers).  Then, run the following command:
+First, install the prerequisites: [Git][], [Go][], and [Docker][].  Then, run
+the following command:
 
 ```sh
-go get github.com/jeffs/geode
+go get github.com/jeffs/geode/...
 ```
 
 The `geode` command line tool should now be in your `$GOPATH/bin` directory (or
@@ -28,6 +27,9 @@ setting Docker's "detach keys" to something other than the default ^p:
 ```json
 { "detachKeys" : "ctrl-\\,ctrl-\\" }
 ```
+
+For a trivial profile, see `testdata/groovy`.  For a larger example, see
+<https://github.com/jeffs/geode-profile-home>.
 
 [Docker]: https://www.docker.com/
 [Git]: https://git-scm.com/

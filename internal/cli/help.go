@@ -22,11 +22,7 @@ Commands:
     help        Print this message
     run         Start a container, or attach to an existing one
 
-Run 'geode help COMMAND' for information about that command.
-
-Other help topics:
-
-Run 'geode help TOPIC' for information about that topic.`
+Run 'geode help COMMAND' for information about that command.`
 
 func topic_help(topic string) (error, string) {
 	switch topic {

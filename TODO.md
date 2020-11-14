@@ -10,3 +10,5 @@
   ```
 
   See also: <https://unix.stackexchange.com/a/366088/49952>
+
+* Apply configs to host system, not only inside Docker.
