@@ -41,6 +41,23 @@ func runArgs(cfg *config) []string {
 	return append(a, cfg.Name)
 }
 
+func RunCommandFromConfig(cfg *config, args []string) []string {
+	a := []string{"docker", "container", "run"}
+	a = append(a, runArgs(cfg)...)
+	a = append(a, args...)
+
+	return a
+}
+
+func RunCommand(profile string, args []string) ([]string, error) {
+	cfg, err := readConfig(profile)
+	if err != nil {
+		return nil, err
+	}
+
+	return RunCommandFromConfig(cfg, args), nil
+}
+
 func RunFromConfig(profile string, cfg *config, args []string) error {
 	if !imageExists(cfg.Name) {
 		if err := BuildFromConfig(profile, cfg); err != nil {
@@ -48,12 +65,11 @@ func RunFromConfig(profile string, cfg *config, args []string) error {
 		}
 	}
 
-	a := []string{"container", "run"}
-	a = append(a, runArgs(cfg)...)
-	a = append(a, args...)
-	c := exec.Command("docker", a...)
+	a := RunCommandFromConfig(cfg, args)
+	c := exec.Command(a[0], a[1:]...)
 	c.Stdin = os.Stdin
 	c.Stdout = os.Stdout
 	c.Stderr = os.Stderr
+
 	return c.Run()
 }

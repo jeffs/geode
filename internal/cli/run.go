@@ -2,6 +2,7 @@ package cli
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/jeffs/geode/internal/docker"
 )
@@ -9,6 +10,20 @@ import (
 func Run(args []string) error {
 	if len(args) < 1 {
 		return errors.New("expected profile")
+	}
+
+	if len(args) > 1 && args[0] == "-n" {
+		if len(args) < 2 {
+			return errors.New("-n: expected profile")
+		}
+
+		a, err := docker.RunCommand(args[1], args[2:])
+		if err != nil {
+			return err
+		}
+
+		fmt.Printf("%v\n", a)
+		return nil
 	}
 
 	// We implement Run as Attach because, unlike Docker, Geode does not

@@ -49,10 +49,12 @@ func topic_help(topic string) (error, string) {
 		return nil, "usage: geode help [TOPIC]"
 
 	case "run":
-		return nil, `usage: geode run PROFILE [ARGS...]
+		return nil, `usage: geode run [-n] PROFILE [ARGS...]
 
-		Start a new Docker container from a Geode profile, building the
-		image first if it does not already exist.`
+		Starts a new Docker container from the specified Geode profile,
+		building the image first if it does not already exist. With -n,
+		only prints the command that would be used to run the
+		container, without actually running it.`
 
 	default:
 		return errors.New(topic + ": bad topic"), ""
