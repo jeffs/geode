@@ -37,14 +37,7 @@ func BuildFromConfig(profile string, cfg *config) error {
 	}
 
 	if !volumeExists(cfg.Name) {
-		nc := *cfg
-		abs, err := filepath.Abs(profile)
-		if err != nil {
-			return err
-		}
-
-		nc.Bind[abs] = "/mnt/profile"
-		return RunFromConfig(profile, &nc, nc.Init)
+		return RunFromConfig(profile, cfg, cfg.Init)
 	}
 
 	return nil
