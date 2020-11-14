@@ -7,11 +7,12 @@ locale = "en_US.UTF-8"
 timezone = "America/New_York"
 
 command = ["/usr/bin/zsh", "-c", "echo '['$(date +%T)] $(hostname)"]
-init = ["./init"]
+init = ["/mnt/profile/init"]
 
 [bind]
 "/Users" = "/Users"
 ".ssh" = ".ssh"
+"git/geode/testdata/groovy" = "/mnt/profile"
 
 [ports]
 8000 = 8080

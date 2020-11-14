@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"path"
 	"testing"
 
 	"github.com/jeffs/geode/internal/docker"
@@ -20,7 +19,7 @@ func TestBuild(t *testing.T) {
 	}
 
 	fmt.Fprintln(os.Stderr, "building image")
-	if err := docker.Build(path.Join("../../testdata", name)); err != nil {
+	if err := docker.Build("../../testdata/groovy"); err != nil {
 		t.Fatal(err)
 	}
 
