@@ -8,10 +8,6 @@ import (
 	"path/filepath"
 )
 
-func volumeExists(flatName string) bool {
-	return exec.Command("docker", "volume", "inspect", flatName).Run() == nil
-}
-
 func BuildFromConfig(profile string, cfg *config) error {
 	dir, err := ioutil.TempDir("", "geode-build")
 	if err != nil {
@@ -34,10 +30,6 @@ func BuildFromConfig(profile string, cfg *config) error {
 	c.Stderr = os.Stderr
 	if err := c.Run(); err != nil {
 		return err
-	}
-
-	if !volumeExists(cfg.Name) {
-		return RunFromConfig(profile, cfg, cfg.Init)
 	}
 
 	return nil

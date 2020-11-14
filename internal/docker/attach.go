@@ -8,10 +8,20 @@ func containerExists(name string) bool {
 	return exec.Command("docker", "container", "inspect", name).Run() == nil
 }
 
+func volumeExists(flatName string) bool {
+	return exec.Command("docker", "volume", "inspect", flatName).Run() == nil
+}
+
 func Attach(profile string, args []string) error {
 	cfg, err := readConfig(profile)
 	if err != nil {
 		return err
+	}
+
+	if !volumeExists(cfg.FlatName()) {
+		if err := RunFromConfig(profile, cfg, cfg.Init); err != nil {
+			return err
+		}
 	}
 
 	if !containerExists(cfg.FlatName()) {

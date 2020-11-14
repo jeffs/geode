@@ -57,12 +57,3 @@ func RunFromConfig(profile string, cfg *config, args []string) error {
 	c.Stderr = os.Stderr
 	return c.Run()
 }
-
-func Run(profile string, args []string) error {
-	cfg, err := readConfig(profile)
-	if err != nil {
-		return err
-	}
-
-	return RunFromConfig(profile, cfg, args)
-}
