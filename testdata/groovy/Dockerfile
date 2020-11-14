@@ -65,7 +65,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -qqy \
 # Install Geode guest scripts.
 # COPY sbin /sbin
 
-{{- if .User}}
 # Create myself, and give myself super powers.
 #
 # Enabling sudo coredumps works around a container bug that makes sudo unhappy:
@@ -79,7 +78,6 @@ USER {{.User}}
 
 # Start containers in my home directory.
 WORKDIR /home/{{.User}}
-{{- end}}
 
 # TODO: COPY geode-main to image, and set CMD to geode-main.
 CMD {{ja .Command}}

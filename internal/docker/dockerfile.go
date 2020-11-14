@@ -24,13 +24,15 @@ func DockerfileFromConfig(profile string, cfg *config, w io.Writer) error {
 		return err
 	}
 
-	tpl := template.Must(
-		template.
-			New("Dockerfile").
-			Funcs(template.FuncMap{"ja": jsonArray}).
-			Parse(string(bytes)))
+	tpl, err := template.New("Dockerfile").
+		Funcs(template.FuncMap{"ja": jsonArray}).
+		Parse(string(bytes))
 
-	if err := tpl.Execute(w, &cfg); err != nil {
+	if err != nil {
+		return err
+	}
+
+	if err := tpl.Execute(w, cfg); err != nil {
 		return fmt.Errorf("can't generate Dockerfile: %w\n", err)
 	}
 

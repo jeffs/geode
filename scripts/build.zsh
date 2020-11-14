@@ -3,5 +3,5 @@
 set -euo pipefail
 
 cd $(dirname $0)/..
-export GOPATH=$PWD/go
+export GOPATH=~/.cache/geode/go
 go install ./...

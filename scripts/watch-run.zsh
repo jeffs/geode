@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 cd $(dirname $0)/..
-export GOPATH=$PWD/go
+export GOPATH=~/.cache/geode/go
 
 declare argsfile=testdata/args
 
@@ -21,9 +21,9 @@ args() {
 
 clear-run() {
     if (( $# > 0 )); then
-        local run="./go/bin/geode $@ $(args)"
+        local run="$GOPATH/bin/geode $@ $(args)"
     else
-        local run="./go/bin/geode $(args)"
+        local run="$GOPATH/bin/geode $(args)"
     fi
     clear
     echo -e "\e[2m[$(date +%T)] go install ./...\e[22m\n"
@@ -32,7 +32,7 @@ clear-run() {
     fi
     clear
     echo -e "\e[2m[$(date +%T)] $run \e[22m\n"
-    ./go/bin/geode "$@" $(args) >& $tmp/Dockerfile
+    $GOPATH/bin/geode "$@" $(args) >& $tmp/Dockerfile
     local code=$?
     bat --pager=never --plain $tmp/Dockerfile
     echo -ne "\n\e[2m[$(date +%T)] $code\e[22m"

@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
-	"path"
 	"path/filepath"
 )
 
@@ -21,7 +20,7 @@ func BuildFromConfig(profile string, cfg *config) error {
 
 	defer os.RemoveAll(dir)
 
-	file, err := os.Create(path.Join(dir, "Dockerfile"))
+	file, err := os.Create(filepath.Join(dir, "Dockerfile"))
 	if err != nil {
 		return fmt.Errorf("can't create Dockerfile: %w\n", err)
 	}
@@ -45,7 +44,7 @@ func BuildFromConfig(profile string, cfg *config) error {
 		}
 
 		nc.Bind[abs] = "/mnt/profile"
-		return RunFromConfig(profile, &nc, []string{"/mnt/profile/init"})
+		return RunFromConfig(profile, &nc, nc.Init)
 	}
 
 	return nil

@@ -64,5 +64,5 @@ func Run(profile string, args []string) error {
 		return err
 	}
 
-	return RunFromConfig(profile, cfg, args);
+	return RunFromConfig(profile, cfg, args)
 }
