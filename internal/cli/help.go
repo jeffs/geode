@@ -27,11 +27,12 @@ Run 'geode help COMMAND' for information about that command.`
 func topic_help(topic string) (error, string) {
 	switch topic {
 	case "build":
-		return nil, `usage: geode build PROFILE
+		return nil, `usage: geode build [--no-cache] PROFILE
 
-		Builds a Docker image from Geode profile.  To see the
-		Dockerfile contents without actually building the image, use:
-		geode dockerfile PROFILE`
+		Builds a Docker image from Geode profile by calling 'docker
+		build', passing the optional --no-cache flag if provided.  To
+		see the Dockerfile contents without actually building the
+		image, use: geode dockerfile PROFILE`
 
 	case "dockerfile":
 		return nil, `usage: geode dockerfile PROFILE
@@ -45,12 +46,14 @@ func topic_help(topic string) (error, string) {
 		return nil, "usage: geode help [TOPIC]"
 
 	case "run":
-		return nil, `usage: geode run [-n] PROFILE [ARGS...]
+		return nil, `usage: geode run [-n] [--no-cache] PROFILE [ARGS...]
 
 		Starts a new Docker container from the specified Geode profile,
 		building the image first if it does not already exist. With -n,
 		only prints the command that would be used to run the
-		container, without actually running it.`
+		container, without actually running it.  With --no-cache,
+		always rebuilds the image from scratch (unless -n was also
+		specified).`
 
 	default:
 		return errors.New(topic + ": bad topic"), ""

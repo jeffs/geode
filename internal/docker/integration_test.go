@@ -19,7 +19,8 @@ func TestBuild(t *testing.T) {
 	}
 
 	fmt.Fprintln(os.Stderr, "building image")
-	if err := docker.Build("../../testdata/groovy"); err != nil {
+	noCache := false
+	if err := docker.Build("../../testdata/groovy", noCache); err != nil {
 		t.Fatal(err)
 	}
 

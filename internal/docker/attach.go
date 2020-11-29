@@ -12,25 +12,29 @@ func volumeExists(flatName string) bool {
 	return exec.Command("docker", "volume", "inspect", flatName).Run() == nil
 }
 
-func Attach(profile string, args []string) error {
+func Attach(profile string, noCache bool, command []string) error {
 	cfg, err := readConfig(profile)
 	if err != nil {
 		return err
 	}
 
 	if !volumeExists(cfg.FlatName()) {
-		if err := RunFromConfig(profile, cfg, cfg.Init); err != nil {
+		if err := RunFromConfig(profile, noCache, cfg, cfg.Init); err != nil {
 			return err
 		}
+
+		// If we've just rebuilt the image, don't rebuild it yet again
+		// when (if) we create the new container.
+		noCache = false
 	}
 
 	if !containerExists(cfg.FlatName()) {
-		return RunFromConfig(profile, cfg, args)
+		return RunFromConfig(profile, noCache, cfg, command)
 	}
 
-	if len(args) < 1 {
-		args = cfg.Command
+	if len(command) < 1 {
+		command = cfg.Command
 	}
 
-	return Exec(profile, args)
+	return Exec(profile, command)
 }

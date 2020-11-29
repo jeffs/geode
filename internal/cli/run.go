@@ -3,21 +3,40 @@ package cli
 import (
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/jeffs/geode/internal/docker"
 )
 
 func Run(args []string) error {
-	if len(args) < 1 {
-		return errors.New("expected profile")
+	var profile string
+	var dryRun bool
+	var noCache bool
+	var command []string // what to run in the container
+	for _, arg := range args {
+		// Args after the profile path are for the command, not for us.
+		if profile == "" && strings.HasPrefix(arg, "-") {
+			switch arg {
+			default:
+				return errors.New("bad flag: " + arg + "\n\n    Did you mean -n, or --no-cache?")
+			case "-n":
+				dryRun = true
+			case "--no-cache":
+				noCache = true
+			}
+		} else if profile == "" {
+			profile = arg
+		} else {
+			command = append(command, arg)
+		}
 	}
 
-	if len(args) > 1 && args[0] == "-n" {
-		if len(args) < 2 {
-			return errors.New("-n: expected profile")
-		}
+	if profile == "" {
+		return errors.New("expected a profile path")
+	}
 
-		a, err := docker.RunCommand(args[1], args[2:])
+	if dryRun {
+		a, err := docker.RunCommand(profile, command)
 		if err != nil {
 			return err
 		}
@@ -32,5 +51,5 @@ func Run(args []string) error {
 	// single container, starting the container automatically if need be;
 	// so Run is more like 'tmux attach' than it is like 'docker run' or
 	// 'docker exec'.
-	return docker.Attach(args[0], args[1:])
+	return docker.Attach(profile, noCache, command)
 }

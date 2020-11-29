@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 )
 
-func BuildFromConfig(profile string, cfg *config) error {
+func BuildFromConfig(profile string, noCache bool, cfg *config) error {
 	dir, err := ioutil.TempDir("", "geode-build")
 	if err != nil {
 		return fmt.Errorf("can't create temp dir %s: %w\n", dir, err)
@@ -25,7 +25,12 @@ func BuildFromConfig(profile string, cfg *config) error {
 		return err
 	}
 
-	c := exec.Command("docker", "image", "build", "-t", cfg.Name, dir)
+	a := []string{"image", "build", "-t", cfg.Name}
+	if noCache {
+		a = append(a, "--no-cache")
+	}
+
+	c := exec.Command("docker", append(a, dir)...)
 	c.Stdout = os.Stdout
 	c.Stderr = os.Stderr
 	if err := c.Run(); err != nil {
@@ -35,12 +40,14 @@ func BuildFromConfig(profile string, cfg *config) error {
 	return nil
 }
 
-// Build creates a Docker image per the specified Geode profile directory.
-func Build(profile string) error {
+// Build creates a Docker image per the specified Geode profile directory.  If
+// noCache is true, Build passes the --no-cache flag to the underlying 'docker
+// build' command.
+func Build(profile string, noCache bool) error {
 	cfg, err := readConfig(profile)
 	if err != nil {
 		return err
 	}
 
-	return BuildFromConfig(profile, cfg)
+	return BuildFromConfig(profile, noCache, cfg)
 }

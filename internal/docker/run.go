@@ -49,6 +49,7 @@ func RunCommandFromConfig(cfg *config, args []string) []string {
 	return a
 }
 
+// Returns arguments suitable for exec.Command.
 func RunCommand(profile string, args []string) ([]string, error) {
 	cfg, err := readConfig(profile)
 	if err != nil {
@@ -58,9 +59,9 @@ func RunCommand(profile string, args []string) ([]string, error) {
 	return RunCommandFromConfig(cfg, args), nil
 }
 
-func RunFromConfig(profile string, cfg *config, args []string) error {
-	if !imageExists(cfg.Name) {
-		if err := BuildFromConfig(profile, cfg); err != nil {
+func RunFromConfig(profile string, noCache bool, cfg *config, args []string) error {
+	if noCache || !imageExists(cfg.Name) {
+		if err := BuildFromConfig(profile, noCache, cfg); err != nil {
 			return err
 		}
 	}
