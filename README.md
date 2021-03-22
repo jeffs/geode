@@ -9,11 +9,18 @@ First, install the prerequisites: [Git][], [Go][], and [Docker][].  Then, run
 the following command:
 
 ```sh
-go get github.com/jeffs/geode/...
+go get -u github.com/jeffs/geode/...
 ```
 
 The `geode` command line tool should now be in your `$GOPATH/bin` directory (or
-`~/go/bin` if `$GOPATH` is empty).
+`~/go/bin` if `$GOPATH` is empty).  Re-run the command at any time to upgrade
+to the latest version of Geode.  To uninstall Geode, remove the binary from
+your go/bin folder, and (optionally) delete the downloaded package:
+
+```sh
+rm ~/go/bin/geode
+rm -rf ~/go/pkg/*/github.com/jeffs/geode
+```
 
 ## Usage
 
