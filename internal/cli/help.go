@@ -29,10 +29,10 @@ func topic_help(topic string) (error, string) {
 	case "build":
 		return nil, `usage: geode build [--no-cache] PROFILE
 
-		Builds a Docker image from Geode profile by calling 'docker
-		build', passing the optional --no-cache flag if provided.  To
-		see the Dockerfile contents without actually building the
-		image, use: geode dockerfile PROFILE`
+		Builds a Docker image from a Geode profile by calling docker
+		build, forwarding the --no-cache flag if provided.  To see the
+		Dockerfile contents without actually building the image, run
+		geode dockerfile PROFILE.`
 
 	case "dockerfile":
 		return nil, `usage: geode dockerfile PROFILE
