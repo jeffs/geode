@@ -28,6 +28,13 @@ Run `geode help` for a list of Geode subcommands.
 
 ## Tips
 
+### Examples
+
+For a trivial profile, see `testdata/groovy`.  For a larger example, see
+<https://github.com/jeffs/geode-profile-home>.
+
+### Key bindings
+
 On the host machine, you probably want to create a `~/.docker/config.json` file
 setting Docker's "detach keys" to something other than the default ^p:
 
@@ -35,10 +42,23 @@ setting Docker's "detach keys" to something other than the default ^p:
 { "detachKeys" : "ctrl-\\,ctrl-\\" }
 ```
 
-For a trivial profile, see `testdata/groovy`.  For a larger example, see
-<https://github.com/jeffs/geode-profile-home>.
+### Clipboards
+
+If you run containers on macOS, you can support copy/paste from the host
+pasteboard via X11.  Paraphrasing [cschiewek][]:
+
+1. Install [XQuartz](https://www.xquartz.org).
+2. Under the XQuartz menu, select Preferences.
+3. Under the security tab, check "Allow connections from network clients."
+4. In a terminal on the host system, run `xhost + 127.0.0.1`.
+5. In your Geode shell, set `DISPLAY=host.docker.internal:0`.
+  - for example, in `~/.bash_profile` or `~/.zprofile`:
+
+            export DISPLAY=host.docker.internal:0
+
 
 [Docker]: https://www.docker.com/
 [Git]: https://git-scm.com/
 [Go]: https://golang.org/
 [TOML]: https://github.com/toml-lang/toml
+[cschiewek]: https://gist.github.com/cschiewek/246a244ba23da8b9f0e7b11a68bf3285
