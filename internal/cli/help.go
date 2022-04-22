@@ -21,6 +21,7 @@ Commands:
     dockerfile  Print a Dockerfile from a Geode profile
     help        Print this message
     run         Start a container, or attach to an existing one
+    version     Print the version of Geode you are running
 
 Run 'geode help COMMAND' for information about that command.`
 
@@ -54,6 +55,9 @@ func topic_help(topic string) (error, string) {
 		container, without actually running it.  With --no-cache,
 		always rebuilds the image from scratch (unless -n was also
 		specified).`
+
+	case "version":
+		return nil, "usage: geode version"
 
 	default:
 		return errors.New(topic + ": bad topic"), ""
