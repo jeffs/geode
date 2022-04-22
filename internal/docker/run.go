@@ -20,6 +20,7 @@ func runArgs(cfg *config) []string {
 		"--mount=type=volume,source=" + fn + ",target=/home/" + cfg.User,
 		"--name=" + fn,
 		"--rm",
+		"--tmpfs=/tmp",
 	}
 
 	for k, v := range cfg.Bind {
