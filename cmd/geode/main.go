@@ -20,6 +20,8 @@ func dispatch(command string, args []string) error {
 		return cli.Help(args)
 	case "run":
 		return cli.Run(args)
+	case "version":
+		return cli.Version(args)
 	default:
 		return errors.New("bad command")
 	}
@@ -34,6 +36,8 @@ func main() {
 	c := os.Args[1]
 	if c == "-h" || c == "--help" {
 		c = "help"
+	} else if c == "-V" || c == "--version" {
+		c = "version"
 	}
 
 	if err := dispatch(c, os.Args[2:]); err != nil {
