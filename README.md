@@ -9,7 +9,7 @@ First, install the prerequisites: [Git][], [Go][], and [Docker][].  Then, run
 the following command:
 
 ```sh
-go install github.com/jeffs/geode/...@latest
+go install github.com/jeffs/geode/...@v0.1.2
 ```
 
 The `geode` command line tool should now be in your `$GOPATH/bin` directory (or
@@ -19,7 +19,7 @@ your go/bin folder, and (optionally) delete the downloaded package:
 
 ```sh
 rm ~/go/bin/geode
-rm -rf ~/go/pkg/*/github.com/jeffs/geode
+rm -rf ~/go/pkg/*/mod/github.com/jeffs/geode
 ```
 
 ## Usage
