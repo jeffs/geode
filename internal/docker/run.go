@@ -35,6 +35,10 @@ func runArgs(cfg *config) []string {
 		a = append(a, fmt.Sprintf("--publish=%s:%d", k, v))
 	}
 
+	if n := cfg.Network; n != "" {
+		a = append(a, fmt.Sprintf("--network=%s", n))
+	}
+
 	if term.IsTerminal(int(os.Stdin.Fd())) {
 		a = append(a, "--interactive", "--tty")
 	}

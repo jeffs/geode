@@ -24,6 +24,7 @@ type config struct {
 	Bind    map[string]string
 	Volumes map[string]string
 	Ports   map[string]int
+	Network string
 }
 
 // FlatName returns a valid Docker container name based on c.Name.  In
