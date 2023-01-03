@@ -10,6 +10,6 @@ func Version(args []string) error {
 		return errors.New("unexpected argument")
 	}
 
-	fmt.Println("v0.1.1")
+	fmt.Println("v0.1.2")
 	return nil
 }
