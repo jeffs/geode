@@ -1,8 +1,10 @@
 # To Do
 
-* GUI support is currently terrible
+* Support Docker networks, so containers can easily communicate over sockets
+* Improve error message when Docker daemon is unavailable
+* Improve GUI support
   - Enabling GUIs ought to be simple; e.g., a flag or docker.toml property
-  - GUIs (via XQuartz) are prohibitively slow
+  - Current GUI options (e.g., via XQuartz) are prohibitively slow
 * Optionally keep containers alive in the absence of interactive connections
   - As a work-around, start a container running an immortal do-nothing process
   - For example, call [pause(2)][], as in [premount.zsh][]
