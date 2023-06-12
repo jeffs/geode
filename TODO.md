@@ -1,5 +1,7 @@
 # To Do
 
+* Automatically download and update profiles from remote Git repos
+* Provide packages for Homebew, aptitude, etc.
 * Support Docker networks, so containers can easily communicate over sockets
 * Improve error message when Docker daemon is unavailable
 * Improve GUI support
